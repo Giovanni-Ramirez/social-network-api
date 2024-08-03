@@ -18,6 +18,9 @@ const reactionSchema = new Schema(
     createdAt: {
         type: Date,
         default: Date.now,
+        get: (date) => {
+          return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
+        }
     },
   },
   {
@@ -27,12 +30,6 @@ const reactionSchema = new Schema(
     id: false,
   }
 );
-
-reactionSchema
-    .virtual('formattedCreatedAt')
-    .get(function() {
-        return this.createdAt.toISOString(); // Format the timestamp as ISO string
-    });
 
 
 

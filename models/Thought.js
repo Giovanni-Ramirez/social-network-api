@@ -10,9 +10,12 @@ const thoughtSchema = new Schema(
         maxLength: 500,
     },
     createdAt: {
-        type: Date,
-        default: Date.now,
-    },
+      type: Date,
+      default: Date.now,
+      get: (date) => {
+        return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
+      }
+  },
     username: {
         type: Schema.Types.String,
         required: true,
@@ -27,19 +30,12 @@ const thoughtSchema = new Schema(
     id: false,
   }
 );
-// getter method to format the timestamp
-thoughtSchema
-    .virtual('formattedCreatedAt')
-    .get(function() {
-        return this.createdAt.toISOString(); // Format the timestamp as ISO string
-    });
 
 thoughtSchema
-  .virtual('friendCount')
+  .virtual('reactionCount')
   .get(function () {
-    return `${this.friends.length}`;
+    return `${this.reactions.length}`;
   });
-
 
 const Thought = model('thought', thoughtSchema);
 
